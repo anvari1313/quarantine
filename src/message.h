@@ -2,8 +2,8 @@
 // Created by ahmad on 3/22/20.
 //
 
-#ifndef YAWSIC_MESSAGE_H
-#define YAWSIC_MESSAGE_H
+#ifndef QUARANTINE_MESSAGE_H
+#define QUARANTINE_MESSAGE_H
 
 typedef struct {
     char name[200];
@@ -25,4 +25,4 @@ typedef struct {
 #define HTTP_HEADER_CONNECTION_CLOSED           "Closed"
 #define HTTP_HEADER_CONTENT_TYPE_TEXT_HTML      "text/html; charset=iso-8859-1"
 
-#endif //YAWSIC_MESSAGE_H
+#endif //QUARANTINE_MESSAGE_H

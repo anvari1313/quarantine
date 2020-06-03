@@ -2,8 +2,8 @@
 // Created by ahmad on 3/20/20.
 //
 
-#ifndef YAWSIC_REQUEST_H
-#define YAWSIC_REQUEST_H
+#ifndef QUARANTINE_REQUEST_H
+#define QUARANTINE_REQUEST_H
 
 #include <stdlib.h>
 #include <stdbool.h>
@@ -25,4 +25,4 @@ request parse_request(const char *request_stream, size_t stream_size);
 request read_request(int socket_id);
 
 
-#endif //YAWSIC_REQUEST_H
+#endif //QUARANTINE_REQUEST_H

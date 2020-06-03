@@ -2,8 +2,8 @@
 // Created by ahmad on 3/21/20.
 //
 
-#ifndef YAWSIC_RESPONSE_H
-#define YAWSIC_RESPONSE_H
+#ifndef QUARANTINE_RESPONSE_H
+#define QUARANTINE_RESPONSE_H
 
 #include "message.h"
 
@@ -34,4 +34,4 @@ response generate_sample_response();
 response generate_file_response(const char path[]);
 response generate_not_found_response();
 
-#endif //YAWSIC_RESPONSE_H
+#endif //QUARANTINE_RESPONSE_H
