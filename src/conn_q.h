@@ -22,6 +22,7 @@ struct conn_q_s {
     conn_q_item *first;
     conn_q_item *last;
     pthread_mutex_t lock;
+    pthread_mutex_t is_empty_lock;
 };
 
 typedef struct conn_q_s *conn_q;
@@ -30,6 +31,7 @@ conn_q new_conn_q();
 void conn_q_enqueue(conn_q, int);
 int conn_q_dequeue(conn_q);
 bool conn_q_is_empty(conn_q);
+void conn_q_wait_on_empty(conn_q);
 void conn_q_dispose(conn_q);
 
 #endif //QUARANTINE_CONN_Q_H

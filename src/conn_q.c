@@ -12,6 +12,8 @@ conn_q new_conn_q()
     cq->first = NULL;
     cq->last = NULL;
     pthread_mutex_init(&cq->lock, NULL);
+    pthread_mutex_init(&cq->is_empty_lock, NULL);
+    pthread_mutex_lock(&(cq->is_empty_lock)); // Queue is empty at first
 
     return cq;
 }
@@ -27,6 +29,7 @@ void conn_q_enqueue(conn_q cq, int cid)
     if (cq->first != NULL)
     {
         cq->first->last = item;
+        pthread_mutex_unlock(&(cq->is_empty_lock));
     }
     else
     {
@@ -43,13 +46,14 @@ int conn_q_dequeue(conn_q cq)
     conn_q_item *item = cq->last;
     int cid = item->cid;
 
-    if (cq->first != item)
+    if (cq->first != item) // Queue will NOT be empty after dequeue
     {
         cq->last = item->last;
     }
-    else
+    else // Queue will be empty after dequeue
     {
         cq->first = cq->last = NULL;
+        pthread_mutex_lock(&(cq->is_empty_lock));
     }
 
     pthread_mutex_unlock(&(cq->lock));
@@ -80,6 +84,15 @@ void conn_q_dispose(conn_q cq)
         item = nex_item;
     }
 
+    pthread_mutex_destroy(&(cq->lock));
+    pthread_mutex_destroy(&(cq->is_empty_lock));
+
     free(cq);
+}
+
+void conn_q_wait_on_empty(conn_q cq)
+{
+    pthread_mutex_lock(&(cq->is_empty_lock));
+    pthread_mutex_unlock(&(cq->is_empty_lock));
 }
 
