@@ -29,11 +29,11 @@ void conn_q_enqueue(conn_q cq, int cid)
     if (cq->first != NULL)
     {
         cq->first->last = item;
-        pthread_mutex_unlock(&(cq->is_empty_lock));
     }
     else
     {
         cq->last = item;
+        pthread_mutex_unlock(&(cq->is_empty_lock));
     }
 
     cq->first = item;
