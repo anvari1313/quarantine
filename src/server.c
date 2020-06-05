@@ -88,7 +88,7 @@ void *connection_handler(void *args)
         socklen_t addr_size = sizeof server_storage;
         client_socket_id = accept(socket_id, (struct sockaddr *) &server_storage, &addr_size);
         client_counts++;
-        worker_enq_connection(ctx->workers[ctx->workers_count % client_counts], client_socket_id);
+        worker_enq_connection(ctx->workers[client_counts % ctx->workers_count], client_socket_id);
     }
     while (!finished);
 
