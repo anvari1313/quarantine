@@ -100,26 +100,17 @@ response generate_file_response(const char *path)
         return generate_not_found_response();
     }
 
-    const size_t buffer_size = 1024;
-    char *file_content = malloc(buffer_size * sizeof(char));
-    fread(file_content, buffer_size * sizeof(char), 1, f);
+    fseek(f, 0, SEEK_END);          // Jump to the end of the file
+    size_t len = ftell(f);             // Get the current byte offset in the file
+    rewind(f);                      // Jump back to the beginning of the file
 
-//    while (!feof(f))
-//    {
-//        char *file_content = malloc(buffer_size * sizeof(char));
-//        fread(file_content, buffer_size * sizeof(char), 1, f);
-//
-//        size_t d = strlen(file_content);
-//
-//        printf("%ld %s\n", d, file_content);
-//        free(file_content);
-//    }
+    char *buffer = (char *)malloc(len * sizeof(char)); // Enough memory for the file
+    fread(buffer, len, 1, f); // Read in the entire file
+    fclose(f); // Close the file
 
-    fclose(f);
-
-    r.body_size = strlen(file_content);
+    r.body_size = len;
     r.body = malloc((r.body_size + 1) * sizeof(char));
-    strcpy(r.body, file_content);
+    strcpy(r.body, buffer);
 
     strcpy(r.protocol, HTTP_PROTOCOL_V11);
     strcpy(r.status_code, HTTP_STATUS_OK);
@@ -132,7 +123,8 @@ response generate_file_response(const char *path)
     header date = {HTTP_HEADER_DATE, "Sun, 18 Oct 2012 10:36:20 GMT"};
     header server = {HTTP_HEADER_SERVER, "Apache/2.2.14 (Win32)"};
     header connection = {HTTP_HEADER_CONNECTION, HTTP_HEADER_CONNECTION_CLOSED};
-    header content_type = {HTTP_HEADER_CONTENT_TYPE, HTTP_HEADER_CONTENT_TYPE_TEXT_HTML};
+//    header content_type = {HTTP_HEADER_CONTENT_TYPE, HTTP_HEADER_CONTENT_TYPE_TEXT_HTML};
+    header content_type = {HTTP_HEADER_CONTENT_TYPE, HTTP_HEADER_CONTENT_TYPE_APP_JSON};
 
     r.header_size = 5;
     r.headers = malloc(r.header_size * sizeof(header));
@@ -169,7 +161,7 @@ response generate_not_found_response()
     strcpy(content_len.value, content_len_value);
 
     header date = {HTTP_HEADER_DATE, "Sun, 18 Oct 2012 10:36:20 GMT"};
-    header server = {HTTP_HEADER_SERVER, "Apache/2.2.14 (Win32)"};
+    header server = {HTTP_HEADER_SERVER, HTTP_HEADER_QUARANTINE_SERVER};
     header connection = {HTTP_HEADER_CONNECTION, HTTP_HEADER_CONNECTION_CLOSED};
     header content_type = {HTTP_HEADER_CONTENT_TYPE, HTTP_HEADER_CONTENT_TYPE_TEXT_HTML};
 

@@ -24,5 +24,8 @@ typedef struct {
 // HTTP header values
 #define HTTP_HEADER_CONNECTION_CLOSED           "Closed"
 #define HTTP_HEADER_CONTENT_TYPE_TEXT_HTML      "text/html; charset=iso-8859-1"
+#define HTTP_HEADER_CONTENT_TYPE_APP_JSON      "application/json"
+
+#define HTTP_HEADER_QUARANTINE_SERVER              "quarantine/0.0.1"
 
 #endif //QUARANTINE_MESSAGE_H
