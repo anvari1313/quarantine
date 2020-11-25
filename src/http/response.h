@@ -5,7 +5,7 @@
 #ifndef QUARANTINE_RESPONSE_H
 #define QUARANTINE_RESPONSE_H
 
-#include "message.h"
+#include "header.h"
 
 typedef struct {
     char protocol[20];

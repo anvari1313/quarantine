@@ -6,10 +6,11 @@
 #include <stdio.h>
 
 #include "response.h"
+#include "header.h"
 
 char *raw_response(response res)
 {
-    char *raw, *raw_header;
+    char *raw = NULL, *raw_header = NULL;
 
     raw_header = malloc((50 + res.header_size * sizeof(header)) * sizeof(char));
 
@@ -26,8 +27,17 @@ char *raw_response(response res)
 
     strcat(raw_header, "\r\n");
 
-    raw = malloc((strlen(raw_header) + res.body_size + 1) * sizeof(char));
-    strcpy(raw, raw_header);
+    size_t len = (strlen(raw_header) + res.body_size + 1) * sizeof(char);
+    raw = malloc(len);
+    if (raw == NULL) {
+        fprintf(stderr, "Can not allocate memory here");
+        exit(-1);
+    }
+//    printf("%d", strlen(raw_header));
+    for (int i = 0; i < strlen(raw_header); ++i) {
+        raw[i] = raw_header[i];
+    }
+//    strcpy(raw, raw_header);
     free(raw_header);
 
     if (res.body_size != 0)
@@ -110,7 +120,7 @@ response generate_file_response(const char *path)
 
     r.body_size = len;
     r.body = malloc((r.body_size + 1) * sizeof(char));
-    strcpy(r.body, buffer);
+//    strcpy(r.body, buffer);
 
     strcpy(r.protocol, HTTP_PROTOCOL_V11);
     strcpy(r.status_code, HTTP_STATUS_OK);
