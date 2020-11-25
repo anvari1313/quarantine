@@ -1,9 +1,11 @@
-//
-// Created by ahmad on 3/22/20.
-//
+/*
+ * Created by Ahmad Anvari (Email: ahmad.anv[at]gmail[dot]com) on 22 April 2020
+ *
+ * This file contains HTTP headers and data structure to hold it.
+ */
 
-#ifndef QUARANTINE_MESSAGE_H
-#define QUARANTINE_MESSAGE_H
+#ifndef QUARANTINE_HTTP_HEADER_H
+#define QUARANTINE_HTTP_HEADER_H
 
 typedef struct {
     char name[200];
@@ -28,4 +30,4 @@ typedef struct {
 
 #define HTTP_HEADER_QUARANTINE_SERVER              "quarantine/0.0.1"
 
-#endif //QUARANTINE_MESSAGE_H
+#endif //QUARANTINE_HTTP_HEADER_H
