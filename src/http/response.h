@@ -27,7 +27,7 @@ typedef struct {
 // 4XX Status Codes
 #define HTTP_STATUS_NOT_FOUND    "404 Not Found"
 
-
+void write_response(int socket_id, response res);
 char *raw_response(response res);
 
 response generate_sample_response();

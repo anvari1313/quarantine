@@ -79,7 +79,7 @@ request read_request(int socket_id)
             i += 2;
         }
 
-        if (strcmp(result.method, "POST") == 0)
+        if (strcmp(result.method, HTTP_METHOD_POST) == 0)
         {
             result.body_size = read_bytes - i + 1;
             result.body = malloc(result.body_size * sizeof(char));

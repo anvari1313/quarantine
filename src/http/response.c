@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-
+#include <unistd.h>
 #include "response.h"
 #include "header.h"
 
@@ -120,7 +120,7 @@ response generate_file_response(const char *path)
 
     r.body_size = len;
     r.body = malloc((r.body_size + 1) * sizeof(char));
-//    strcpy(r.body, buffer);
+    strcpy(r.body, buffer);
 
     strcpy(r.protocol, HTTP_PROTOCOL_V11);
     strcpy(r.status_code, HTTP_STATUS_OK);
@@ -184,4 +184,12 @@ response generate_not_found_response()
     r.headers[4] = content_type;
 
     return r;
+}
+
+void write_response(int socket_id, response res)
+{
+    char *raw_res;
+
+    raw_res = raw_response(res);
+    write(socket_id, raw_res, strlen(raw_res));
 }

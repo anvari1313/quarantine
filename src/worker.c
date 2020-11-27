@@ -11,6 +11,7 @@
 #include <string.h>
 #include "http/request.h"
 #include "http/response.h"
+#include "log.h"
 
 void *worker_handler(void *args);
 
@@ -74,25 +75,15 @@ void *worker_handler(void *args)
         conn_q_wait_on_empty(w->cq);
         int client_socket_id = conn_q_dequeue(w->cq);
 
-        request request;
-        char *response;
+        request req;
+        response response;
+        char *raw_res;
 
-        request = read_request(client_socket_id);
-        printf("|%s|%s|%s|(", request.method, request.path, request.protocol);
-        for (int i = 0; i < request.header_size; ++i)
-        {
-            printf("|%s:%s|", request.headers[i].name, request.headers[i].value);
-        }
-        printf(")\n");
-        if (request.body_size != 0)
-        {
-            printf("body: %s\n", request.body);
-        }
+        req = read_request(client_socket_id);
+        log_request(req);
 
-        response = raw_response(generate_file_response(request.path));
-        write(client_socket_id, response, strlen(response));
-
-        fprintf(stdout, "Message Complete\n");
+        response = generate_file_response(req.path);
+        write_response(client_socket_id, response);
 
         close(client_socket_id);
     }

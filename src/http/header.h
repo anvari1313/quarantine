@@ -16,6 +16,12 @@ typedef struct {
 #define HTTP_PROTOCOL_V11 "HTTP/1.1"
 #define HTTP_PROTOCOL_V10 "HTTP/1.0"
 
+// HTTP protocol methods
+#define HTTP_METHOD_GET     "GET"
+#define HTTP_METHOD_POST    "POST"
+#define HTTP_METHOD_PUT     "PUT"
+#define HTTP_METHOD_DELETE  "DELETE"
+
 // HTTP header keys
 #define HTTP_HEADER_DATE                "Date"
 #define HTTP_HEADER_SERVER              "Server"
